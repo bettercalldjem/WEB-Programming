@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Шахматная доска</title>
+    <style>
+        canvas {
+            border: 2px solid black;
+        }
+    </style>
+</head>
+<body>
+    <h1>Шахматная доска</h1>
+    <label for="cellColor">Цвет клеток:</label>
+    <input type="color" id="cellColor" value="#ffffff">
+    
+    <label for="borderColor">Цвет рамки:</label>
+    <input type="color" id="borderColor" value="#000000">
+
+    <br><br>
+    <canvas id="chessboard" width="400" height="400"></canvas>
+
+    <script>
+        const canvas = document.getElementById('chessboard');
+        const ctx = canvas.getContext('2d');
+        const cellColorInput = document.getElementById('cellColor');
+        const borderColorInput = document.getElementById('borderColor');
+        
+        function drawChessboard(cellColor, borderColor) {
+            const cellSize = canvas.width / 8;
+            for (let row = 0; row < 8; row++) {
+                for (let col = 0; col < 8; col++) {
+                    ctx.fillStyle = (row + col) % 2 === 0 ? cellColor : '#000000';
+                    ctx.fillRect(col * cellSize, row * cellSize, cellSize, cellSize);
+                }
+            }
+            // Рисуем рамку
+            ctx.strokeStyle = borderColor;
+            ctx.lineWidth = 5;
+            ctx.strokeRect(0, 0, canvas.width, canvas.height);
+        }
+
+        // Изначальная отрисовка
+        drawChessboard('#ffffff', '#000000');
+
+        // Обновление цветов при изменении
+        cellColorInput.addEventListener('input', () => {
+            drawChessboard(cellColorInput.value, borderColorInput.value);
+        });
+
+        borderColorInput.addEventListener('input', () => {
+            drawChessboard(cellColorInput.value, borderColorInput.value);
+        });
+    </script>
+</body>
+</html>
